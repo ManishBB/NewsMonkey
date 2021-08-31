@@ -3,12 +3,11 @@ import NewsItem from './NewsItem'
 
 export class News extends Component {
 
-    articles = [
-        {
+    articles = [{
           "source": { "id": "reuters", "name": "Reuters" },
           "author": "Toby Sterling",
           "title": "Prosus doubles down on India with $4.7 bln deal for BillDesk",
-          "description": "Prosus NV doubled down on its investment in India on Tuesday with a $4.7 billion deal for payments platform BillDesk, making it one of the biggest players in the country's fast-gr…",
+          "description": "Prosus NV <a href=\"https://www.reuters.com/companies/PRX.AS\" target=\"_blank\">(PRX.AS)</a> doubled down on its investment in India on Tuesday with a $4.7 billion deal for payments platform BillDesk, making it one of the biggest players in the country's fast-gr…",
           "url": "https://www.reuters.com/world/india/prosus-buys-indian-payments-company-billdesk-47-billion-2021-08-31/",
           "urlToImage": "https://www.reuters.com/resizer/_EQTTavxC9Uc3JoHgs0RIhqsfGg=/1200x628/smart/filters:quality(80)/cloudfront-us-east-2.images.arcpublishing.com/reuters/KDLGEZKKP5P35AQWM5HV4HAXIA.jpg",
           "publishedAt": "2021-08-31T07:55:51Z",
@@ -175,7 +174,8 @@ export class News extends Component {
           "content": "R Ashwin has said that he is \"fighting my own benchmarks\" because his Test performances overseas are being measured against his heroics in India. Despite being the country's best long-form spinner in… [+3347 chars]"
         }
       ];
-    
+
+
     constructor(){
         super();
         console.log("From news item!")
@@ -185,20 +185,26 @@ export class News extends Component {
         }
     }
 
+    async componentDidMount(){
+        console.log("cdl")
+        let url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=87925e2b98644535b4cd74a092bd9900";
+        let data = await fetch(url);
+        let parsedData = await data.json();
+        console.log(parsedData)
+        this.setState({articles : parsedData.articles})
+    }
+
     render() {
         return (
             <div className="container my-3">
                 <h2>NewsMonkey Top Headlines!</h2>
 
-                
-
                 <div className="row">
-                    {this.state.articles.map((element)=>{
+                    { this.state.articles.map((element)=>{
                         return <div className="col-md-4" key={element.url}>
-                        <NewsItem title={element.title.slice(0,40)} description={element.description.slice(0,88)} imageUrl={element.urlToImage} newsUrl={element.url}/>
+                        <NewsItem title={element.title?element.title.slice(0,40):""} description={element.description?element.description.slice(0,88):""} imageUrl={element.urlToImage} newsUrl={element.url}/>
                     </div>
                     })}
-                
                 </div>
                 
             </div>
