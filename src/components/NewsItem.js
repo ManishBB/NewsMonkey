@@ -8,8 +8,15 @@ export class NewsItem extends Component {
         return (
             <div>
                 <div className="card my-2">
-                <span className="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{left : '90%', zIndex : '1'}}>{source}
-                </span>
+                <div style={{
+                    display : 'flex',
+                    justifyContent : 'flex-end',
+                    position : 'absolute',
+                    right : 0
+                }}>
+                <span className="badge rounded-pill bg-danger">{source}</span>
+                </div>
+                
                 <img src={!imageUrl?"https://cdn.wionews.com/sites/default/files/styles/story_page/public/2021/04/08/190606-untitled-design-11.jpg":imageUrl} className="card-img-top" alt="..."/>
                 <div className="card-body">
                     <h5 className="card-title">{title}...</h5>
