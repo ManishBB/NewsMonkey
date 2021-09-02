@@ -11,7 +11,7 @@ const News = (props) => {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [totalResults, setTotalResults] = useState(0)
-    // document.title = `${this.capitalizeFirstLetter(props.category)} | NewsMonkey`
+    
     const capitalizeFirstLetter = (string)=>{
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -32,7 +32,9 @@ const News = (props) => {
     }
 
     useEffect(() => {
+      document.title = `${capitalizeFirstLetter(props.category)} | NewsMonkey`
       updateNews();
+      // eslint-disable-next-line
     }, [])
 
     const handlePrevClick = async ()=>{
@@ -68,8 +70,8 @@ const News = (props) => {
     }
 
     const fetchMoreData = async() => {
+      const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
       setPage(page+1)
-      const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
       setLoading(true)
       let data = await fetch(url);
       let parsedData = await data.json();
@@ -81,8 +83,8 @@ const News = (props) => {
 
         return (
             <>
-                <h2 className="text-center" style={{margin : '30px 0px'}}>NewsMonkey - Top {capitalizeFirstLetter(props.category)} Headlines</h2>
-                {/* { loading && <Spinner />} */}
+                <h2 className="text-center" style={{margin : '30px 0px', marginTop : '90px'}}>NewsMonkey - Top {capitalizeFirstLetter(props.category)} Headlines</h2>
+                {loading && <Spinner />}
 
                 <InfiniteScroll
                   dataLength={articles.length}
